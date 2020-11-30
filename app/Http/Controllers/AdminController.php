@@ -184,7 +184,7 @@ public function deleteImage(Request $request) {
 }
 public function deleteFileFromServer($fileName, $hasFullPath = false) {
     if (!$hasFullPath) {
-        $filePath = public_path().'/uploads/'.$fileName;
+        $filePath = public_path().$fileName;
     }
     if (file_exists($filePath)) {
         @unlink($filePath);
@@ -218,6 +218,30 @@ public function createPlan(Request $request) {
 
 public function getPlans() {
     return Mealplan::orderBy('id', 'desc')->get();
+}
+public function editPlan(Request $request) {
+    //validate request
+            $this->validate($request, [
+                'title' => 'required',
+                'description' => 'required',
+                'carbs' => 'required',
+                'protein' => 'required',
+                'calories' => 'required',
+                'fat' => 'required',
+                'featuredImage' => 'required'
+            ]);
+            $data = [
+                'title' => $request->title,
+                'description' => $request->description,
+                'carbs' => $request->carbs,
+                'protein' => $request->protein,
+                'calories' => $request->calories,
+                'fat' => $request->fat,
+                'featuredImage' => $request->featuredImage,
+                'user_id' => $request->user_id,
+            ];            
+            $plan = Mealplan::where('id',$request->id)->update($data);
+            return $plan;
 }
 
 

@@ -2976,6 +2976,99 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2991,7 +3084,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       addModal: false,
       isAdding: false,
       token: "",
-      mealPlans: []
+      mealPlans: [],
+      isEditing: false,
+      editModal: false,
+      editData: {
+        title: "",
+        description: "",
+        calories: "",
+        carbs: "",
+        protein: "",
+        fat: "",
+        featuredImage: ""
+      },
+      isfeaturedImageNew: false,
+      isEditingItem: false,
+      viewMode: false
     };
   },
   methods: {
@@ -3153,17 +3260,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context2.abrupt("return", _this2.error("Protein is required"));
 
               case 12:
-                _this2.data.featuredImage = "".concat(_this2.data.featuredImage);
-                _context2.next = 15;
-                return _this2.callApi("post", "app/create_plan", _this2.data);
+                if (!(_this2.editData.featuredImage.trim() == "")) {
+                  _context2.next = 14;
+                  break;
+                }
 
-              case 15:
+                return _context2.abrupt("return", _this2.error("Image is required"));
+
+              case 14:
+                _this2.data.featuredImage = "".concat(_this2.data.featuredImage);
+                _context2.next = 17;
+                return _this2.callApi("post", "app/edit_plan", _this2.editData);
+
+              case 17:
                 res = _context2.sent;
 
-                if (res.status === 201) {
-                  _this2.success("Meal Plan added successfully");
+                if (res.status === 200) {
+                  _this2.success("Meal Plan edited successfully");
 
-                  _this2.addModal = false;
+                  _this2.editModal = false;
+                  _this2.data.featuredImage = "";
+                  _this2.isEditingItem = false;
+                  _this2.isEditing = false;
+
+                  _this2.$refs.editDataUploads.clearFiles();
                 } else {
                   if (res.status === 422) {
                     if (res.data.errors.featuredImage) {
@@ -3174,7 +3294,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 }
 
-              case 17:
+              case 19:
               case "end":
                 return _context2.stop();
             }
@@ -3182,11 +3302,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
+    showEditModal: function showEditModal(plan, index) {
+      //to prevent real time editing 
+      // let obj = {
+      // 	id : plan.id,
+      //     title: plan.title,
+      //     description: plan.description,
+      //     calories: plan.calories,
+      //     carbs: plan.carbs,
+      //     protein: plan.protein,
+      //     fat: plan.fat,
+      //     featuredImage: plan.featuredImage
+      // }
+      this.editData = plan;
+      this.editModal = true;
+      this.index = index;
+      this.isEditingItem = true;
+    },
+    showViewModal: function showViewModal(plan, index) {
+      console.log('view mode activated');
+      this.viewMode = true;
+      this.editModal = true;
+      this.editData = plan;
+      this.index = index;
+    },
+    closeEditModal: function closeEditModal() {
+      this.isEditingItem = false;
+      this.editModal = false;
+      this.viewMode = false;
+    },
     handleSuccess: function handleSuccess(res, file) {
       res = "/uploads/".concat(res);
 
       if (this.isEditingItem) {
-        return this.editData.iconImage = res;
+        return this.editData.featuredImage = res;
       }
 
       this.data.featuredImage = res;
@@ -3223,7 +3372,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 if (!isAdd) {
                   // for editing
-                  _this3.isIconImageNew = true;
+                  _this3.isfeaturedImageNew = true;
                   image = _this3.editData.featuredImage;
                   _this3.editData.featuredImage = "";
 
@@ -3249,7 +3398,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this3.swr();
                 }
 
-                console.log(_this3.data.featuredImage);
+                console.log(image);
 
               case 7:
               case "end":
@@ -83212,14 +83361,28 @@ var render = function() {
                               [
                                 _c(
                                   "Button",
-                                  { attrs: { size: "small", shape: "circle" } },
+                                  {
+                                    attrs: { size: "small", shape: "circle" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.showViewModal(plan, i)
+                                      }
+                                    }
+                                  },
                                   [_c("Icon", { attrs: { type: "md-eye" } })],
                                   1
                                 ),
                                 _vm._v(" "),
                                 _c(
                                   "Button",
-                                  { attrs: { size: "small", type: "info" } },
+                                  {
+                                    attrs: { size: "small", type: "info" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.showEditModal(plan, i)
+                                      }
+                                    }
+                                  },
                                   [_vm._v("Edit")]
                                 ),
                                 _vm._v(" "),
@@ -83576,6 +83739,410 @@ var render = function() {
                       _vm._v(
                         "\n                        " +
                           _vm._s(_vm.isAdding ? "Adding..." : "Add Category") +
+                          "\n                    "
+                      )
+                    ]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "Modal",
+            {
+              attrs: {
+                closable: false,
+                "mask-closable": false,
+                title: "Edit Meal Plan"
+              },
+              model: {
+                value: _vm.editModal,
+                callback: function($$v) {
+                  _vm.editModal = $$v
+                },
+                expression: "editModal"
+              }
+            },
+            [
+              _c("Input", {
+                attrs: { placeholder: "Title" },
+                model: {
+                  value: _vm.editData.title,
+                  callback: function($$v) {
+                    _vm.$set(_vm.editData, "title", $$v)
+                  },
+                  expression: "editData.title"
+                }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "space" }),
+              _vm._v(" "),
+              _c("Input", {
+                attrs: { placeholder: "Description" },
+                model: {
+                  value: _vm.editData.description,
+                  callback: function($$v) {
+                    _vm.$set(_vm.editData, "description", $$v)
+                  },
+                  expression: "editData.description"
+                }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "space" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-3" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col-1",
+                        staticStyle: {
+                          display: "flex",
+                          "align-items": "center"
+                        }
+                      },
+                      [
+                        _c(
+                          "p",
+                          {
+                            staticStyle: {
+                              "font-weight": "bold",
+                              "font-size": "17px"
+                            }
+                          },
+                          [_vm._v("≤")]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col-9",
+                        staticStyle: { "margin-left": "-15px" }
+                      },
+                      [
+                        _c("Input", {
+                          attrs: { placeholder: "Calories" },
+                          model: {
+                            value: _vm.editData.calories,
+                            callback: function($$v) {
+                              _vm.$set(_vm.editData, "calories", $$v)
+                            },
+                            expression: "editData.calories"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col-2",
+                        staticStyle: {
+                          display: "flex",
+                          "align-items": "center",
+                          "margin-left": "-25px"
+                        }
+                      },
+                      [_c("p", [_vm._v("kcal")])]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-3" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "div",
+                      { staticClass: "col-10" },
+                      [
+                        _c("Input", {
+                          attrs: { placeholder: "Protein" },
+                          model: {
+                            value: _vm.editData.protein,
+                            callback: function($$v) {
+                              _vm.$set(_vm.editData, "protein", $$v)
+                            },
+                            expression: "editData.protein"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col-2",
+                        staticStyle: {
+                          display: "flex",
+                          "align-items": "center",
+                          "margin-left": "-25px"
+                        }
+                      },
+                      [
+                        _c(
+                          "p",
+                          {
+                            staticStyle: {
+                              "font-weight": "bold",
+                              "font-size": "17px"
+                            }
+                          },
+                          [_vm._v("%")]
+                        )
+                      ]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-3" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "div",
+                      { staticClass: "col-10" },
+                      [
+                        _c("Input", {
+                          attrs: { placeholder: "Fat" },
+                          model: {
+                            value: _vm.editData.fat,
+                            callback: function($$v) {
+                              _vm.$set(_vm.editData, "fat", $$v)
+                            },
+                            expression: "editData.fat"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col-2",
+                        staticStyle: {
+                          display: "flex",
+                          "align-items": "center",
+                          "margin-left": "-25px"
+                        }
+                      },
+                      [
+                        _c(
+                          "p",
+                          {
+                            staticStyle: {
+                              "font-weight": "bold",
+                              "font-size": "17px"
+                            }
+                          },
+                          [_vm._v("%")]
+                        )
+                      ]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-3" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "div",
+                      { staticClass: "col-10" },
+                      [
+                        _c("Input", {
+                          attrs: { placeholder: "Carbs" },
+                          model: {
+                            value: _vm.editData.carbs,
+                            callback: function($$v) {
+                              _vm.$set(_vm.editData, "carbs", $$v)
+                            },
+                            expression: "editData.carbs"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col-2",
+                        staticStyle: {
+                          display: "flex",
+                          "align-items": "center",
+                          "margin-left": "-25px"
+                        }
+                      },
+                      [
+                        _c(
+                          "p",
+                          {
+                            staticStyle: {
+                              "font-weight": "bold",
+                              "font-size": "17px"
+                            }
+                          },
+                          [_vm._v("%")]
+                        )
+                      ]
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "space" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "space" }),
+              _vm._v(" "),
+              _c("h2", [_vm._v("Featured Image")]),
+              _vm._v(" "),
+              _c(
+                "Upload",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.isfeaturedImageNew,
+                      expression: "isfeaturedImageNew"
+                    }
+                  ],
+                  ref: "editDataUploads",
+                  attrs: {
+                    format: ["jpg", "jpeg", "png"],
+                    headers: {
+                      "x-csrf-token": _vm.token,
+                      "X-Requested-With": "XMLHttpRequest"
+                    },
+                    "max-size": 2048,
+                    "on-error": _vm.handleError,
+                    "on-exceeded-size": _vm.handleMaxSize,
+                    "on-format-error": _vm.handleFormatError,
+                    "on-success": _vm.handleSuccess,
+                    action: "/app/upload",
+                    type: "drag"
+                  }
+                },
+                [
+                  _c(
+                    "div",
+                    { staticStyle: { padding: "20px 0" } },
+                    [
+                      _c("Icon", {
+                        staticStyle: { color: "#3399ff" },
+                        attrs: { size: "52", type: "ios-cloud-upload" }
+                      }),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("Click or drag files here to upload")])
+                    ],
+                    1
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.viewMode,
+                      expression: "viewMode"
+                    }
+                  ],
+                  staticClass: "imageview"
+                },
+                [
+                  _c("img", {
+                    attrs: {
+                      height: "200",
+                      width: "200",
+                      src: _vm.editData.featuredImage
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _vm.editData.featuredImage
+                ? _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.isEditingItem,
+                          expression: "isEditingItem"
+                        }
+                      ],
+                      staticClass: "demo-upload-list"
+                    },
+                    [
+                      _c("img", {
+                        attrs: { src: "" + _vm.editData.featuredImage }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "demo-upload-list-cover" },
+                        [
+                          _c("Icon", {
+                            attrs: { type: "ios-trash-outline" },
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteImage(false)
+                              }
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "div",
+                { attrs: { slot: "footer" }, slot: "footer" },
+                [
+                  _c(
+                    "Button",
+                    {
+                      attrs: { type: "error" },
+                      on: { click: _vm.closeEditModal }
+                    },
+                    [_vm._v("Close")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "Button",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.isEditingItem,
+                          expression: "isEditingItem"
+                        }
+                      ],
+                      attrs: {
+                        disabled: _vm.isEditing,
+                        loading: _vm.isEditing,
+                        type: "primary"
+                      },
+                      on: { click: _vm.editMealPlan }
+                    },
+                    [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(
+                            _vm.isEditing ? "Editing..." : "Edit Meal Plan"
+                          ) +
                           "\n                    "
                       )
                     ]
