@@ -3052,11 +3052,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.abrupt("return", _this.error("Protein is required"));
 
               case 12:
+                if (!(_this.data.featuredImage.trim() == "")) {
+                  _context.next = 14;
+                  break;
+                }
+
+                return _context.abrupt("return", _this.error("Image is required"));
+
+              case 14:
                 _this.data.featuredImage = "".concat(_this.data.featuredImage);
-                _context.next = 15;
+                _context.next = 17;
                 return _this.callApi("post", "app/create_plan", _this.data);
 
-              case 15:
+              case 17:
                 res = _context.sent;
 
                 if (res.status === 201) {
@@ -3073,19 +3081,105 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 } else {
                   if (res.status === 422) {
                     if (res.data.errors.featuredImage) {
-                      _this.e(res.data.errors.featuredImage[0]);
+                      _this.error(res.data.errors.featuredImage[0]);
                     }
                   } else {
                     _this.swr();
                   }
                 }
 
-              case 17:
+              case 19:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
+      }))();
+    },
+    editMealPlan: function editMealPlan() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!(_this2.editData.title.trim() == "")) {
+                  _context2.next = 2;
+                  break;
+                }
+
+                return _context2.abrupt("return", _this2.error("Title is required"));
+
+              case 2:
+                if (!(_this2.editData.description.trim() == "")) {
+                  _context2.next = 4;
+                  break;
+                }
+
+                return _context2.abrupt("return", _this2.error("Description is required"));
+
+              case 4:
+                if (!(_this2.editData.calories.trim() == "")) {
+                  _context2.next = 6;
+                  break;
+                }
+
+                return _context2.abrupt("return", _this2.error("Calories cannot be empty"));
+
+              case 6:
+                if (!(_this2.editData.fat.trim() == "")) {
+                  _context2.next = 8;
+                  break;
+                }
+
+                return _context2.abrupt("return", _this2.error("Fat is required"));
+
+              case 8:
+                if (!(_this2.editData.carbs.trim() == "")) {
+                  _context2.next = 10;
+                  break;
+                }
+
+                return _context2.abrupt("return", _this2.error("Carbs cannot be empty"));
+
+              case 10:
+                if (!(_this2.editData.protein.trim() == "")) {
+                  _context2.next = 12;
+                  break;
+                }
+
+                return _context2.abrupt("return", _this2.error("Protein is required"));
+
+              case 12:
+                _this2.data.featuredImage = "".concat(_this2.data.featuredImage);
+                _context2.next = 15;
+                return _this2.callApi("post", "app/create_plan", _this2.data);
+
+              case 15:
+                res = _context2.sent;
+
+                if (res.status === 201) {
+                  _this2.success("Meal Plan added successfully");
+
+                  _this2.addModal = false;
+                } else {
+                  if (res.status === 422) {
+                    if (res.data.errors.featuredImage) {
+                      _this2.e(res.data.errors.featuredImage[0]);
+                    }
+                  } else {
+                    _this2.swr();
+                  }
+                }
+
+              case 17:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
       }))();
     },
     handleSuccess: function handleSuccess(res, file) {
@@ -3117,83 +3211,83 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     deleteImage: function deleteImage() {
       var _arguments = arguments,
-          _this2 = this;
+          _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
         var isAdd, image, res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 isAdd = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : true;
 
                 if (!isAdd) {
                   // for editing
-                  _this2.isIconImageNew = true;
-                  image = _this2.editData.featuredImage;
-                  _this2.editData.featuredImage = "";
+                  _this3.isIconImageNew = true;
+                  image = _this3.editData.featuredImage;
+                  _this3.editData.featuredImage = "";
 
-                  _this2.$refs.editDataUploads.clearFiles();
+                  _this3.$refs.editDataUploads.clearFiles();
                 } else {
-                  image = _this2.data.featuredImage;
-                  _this2.data.featuredImage = "";
+                  image = _this3.data.featuredImage;
+                  _this3.data.featuredImage = "";
 
-                  _this2.$refs.uploads.clearFiles();
+                  _this3.$refs.uploads.clearFiles();
                 }
 
-                _context2.next = 4;
-                return _this2.callApi("post", "app/delete_image", {
+                _context3.next = 4;
+                return _this3.callApi("post", "app/delete_image", {
                   imageName: image
                 });
 
               case 4:
-                res = _context2.sent;
+                res = _context3.sent;
 
                 if (res.status != 200) {
-                  _this2.data.featuredImage = image;
+                  _this3.data.featuredImage = image;
 
-                  _this2.swr();
+                  _this3.swr();
                 }
 
-                console.log(_this2.data.featuredImage);
+                console.log(_this3.data.featuredImage);
 
               case 7:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2);
+        }, _callee3);
       }))();
     }
   },
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
       var res;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context4.prev = _context4.next) {
             case 0:
-              _this3.token = window.Laravel.csrfToken;
-              _context3.next = 3;
-              return _this3.callApi("get", "app/get_plans");
+              _this4.token = window.Laravel.csrfToken;
+              _context4.next = 3;
+              return _this4.callApi("get", "app/get_plans");
 
             case 3:
-              res = _context3.sent;
+              res = _context4.sent;
 
               if (res.status = 201) {
-                _this3.mealPlans = res.data;
+                _this4.mealPlans = res.data;
               } else {
-                _this3.swr();
+                _this4.swr();
               }
 
             case 5:
             case "end":
-              return _context3.stop();
+              return _context4.stop();
           }
         }
-      }, _callee3);
+      }, _callee4);
     }))();
   }
 });
@@ -102164,15 +102258,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!*************************************************!*\
   !*** ./resources/js/admin/pages/createPlan.vue ***!
   \*************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _createPlan_vue_vue_type_template_id_0a85bfa4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createPlan.vue?vue&type=template&id=0a85bfa4& */ "./resources/js/admin/pages/createPlan.vue?vue&type=template&id=0a85bfa4&");
 /* harmony import */ var _createPlan_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createPlan.vue?vue&type=script&lang=js& */ "./resources/js/admin/pages/createPlan.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _createPlan_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _createPlan_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _createPlan_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./createPlan.vue?vue&type=style&index=0&lang=css& */ "./resources/js/admin/pages/createPlan.vue?vue&type=style&index=0&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var _createPlan_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./createPlan.vue?vue&type=style&index=0&lang=css& */ "./resources/js/admin/pages/createPlan.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -102204,7 +102297,7 @@ component.options.__file = "resources/js/admin/pages/createPlan.vue"
 /*!**************************************************************************!*\
   !*** ./resources/js/admin/pages/createPlan.vue?vue&type=script&lang=js& ***!
   \**************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -102709,7 +102802,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _admin_pages_roles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./admin/pages/roles */ "./resources/js/admin/pages/roles.vue");
 /* harmony import */ var _admin_pages_login__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./admin/pages/login */ "./resources/js/admin/pages/login.vue");
 /* harmony import */ var _admin_pages_assignRole__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./admin/pages/assignRole */ "./resources/js/admin/pages/assignRole.vue");
-/* harmony import */ var _admin_pages_createPlan__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./admin/pages/createPlan */ "./resources/js/admin/pages/createPlan.vue");
+/* harmony import */ var _admin_pages_createPlan__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./admin/pages/createPlan */ "./resources/js/admin/pages/createPlan.vue");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
@@ -102741,7 +102834,7 @@ var routes = [{
   name: 'assignRole'
 }, {
   path: '/createPlan',
-  component: _admin_pages_createPlan__WEBPACK_IMPORTED_MODULE_8__["default"],
+  component: _admin_pages_createPlan__WEBPACK_IMPORTED_MODULE_7__["default"],
   name: 'createPlan'
 }];
 /* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({

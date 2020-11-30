@@ -173,6 +173,8 @@ export default {
                 return this.error("Carbs cannot be empty");
             if (this.data.protein.trim() == "")
                 return this.error("Protein is required");
+            if (this.data.featuredImage.trim() == "")
+                return this.error("Image is required");
             this.data.featuredImage = `${this.data.featuredImage}`;
             const res = await this.callApi(
                 "post",
@@ -189,6 +191,38 @@ export default {
                 this.data.protein = "";
                 this.data.fat = "";
                 this.data.featuredImage = "";
+            } else {
+                if (res.status === 422) {
+                    if (res.data.errors.featuredImage) {
+                        this.error(res.data.errors.featuredImage[0]);
+                    }
+                } else {
+                    this.swr();
+                }
+            }
+        },
+        async editMealPlan() {
+            if (this.editData.title.trim() == "")
+                return this.error("Title is required");
+            if (this.editData.description.trim() == "")
+                return this.error("Description is required");
+            if (this.editData.calories.trim() == "")
+                return this.error("Calories cannot be empty");
+            if (this.editData.fat.trim() == "")
+                return this.error("Fat is required");
+            if (this.editData.carbs.trim() == "")
+                return this.error("Carbs cannot be empty");
+            if (this.editData.protein.trim() == "")
+                return this.error("Protein is required");
+            this.data.featuredImage = `${this.data.featuredImage}`;
+            const res = await this.callApi(
+                "post",
+                "app/create_plan",
+                this.data
+            );
+            if (res.status === 201) {
+                this.success("Meal Plan added successfully");
+                this.addModal = false;
             } else {
                 if (res.status === 422) {
                     if (res.data.errors.featuredImage) {
