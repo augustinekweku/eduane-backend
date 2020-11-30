@@ -131,6 +131,95 @@
                     </div>
                 </Modal>
 
+                <!-- meal plan adding modal -->
+                <Modal :closable="false" :mask-closable="false" title="Add Meal Plan" v-model="addModal">
+                    <Input v-model="data.title" placeholder="Title"/>
+                    <div class="space"></div>
+                    <Input v-model="data.description" placeholder="Description"/>
+                    <div class="space"></div>
+                    <div class="row">
+
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-1" style="display:flex; align-items:center;">
+                                    <p style="font-weight:bold; font-size:17px;">≤</p>
+                                </div>
+                                <div class="col-9" style="margin-left:-15px">
+                                    <Input v-model="data.calories" placeholder="Calories"/>
+                                </div>
+                                <div class="col-2" style="display:flex; align-items:center; margin-left:-25px">
+                                    <p>kcal</p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-10">
+                                    <Input v-model="data.protein" placeholder="Protein"/>
+                                </div>
+                                <div class="col-2" style="display:flex; align-items:center; margin-left:-25px">
+                                    <p style="font-weight:bold; font-size:17px;">%</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-10">
+                                    <Input v-model="data.fat" placeholder="Fat"/>
+                                </div>
+                                <div class="col-2" style="display:flex; align-items:center; margin-left:-25px">
+                                    <p style="font-weight:bold; font-size:17px;">%</p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-10">
+                                    <Input v-model="data.carbs" placeholder="Carbs"/>
+                                </div>
+                                <div class="col-2" style="display:flex; align-items:center; margin-left:-25px">
+                                    <p style="font-weight:bold; font-size:17px;">%</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="space"></div>
+                    <div class="space"></div>
+                    <h2>Featured Image</h2>
+                    <Upload :format="['jpg', 'jpeg', 'png']" :headers="{
+                                                    'x-csrf-token': token,
+                                                    'X-Requested-With': 'XMLHttpRequest'
+                                                }" :max-size="2048" :on-error="handleError"
+                                                :on-exceeded-size="handleMaxSize"
+                                                :on-format-error="handleFormatError" 
+                                                :on-success="handleSuccess" action="/app/upload" ref="uploads" type="drag">
+                        <div style="padding: 20px 0">
+                            <Icon size="52" style="color: #3399ff" type="ios-cloud-upload"></Icon>
+                            <p>Click or drag files here to upload</p>
+                        </div>
+                    </Upload>
+
+                    <div class="demo-upload-list" v-if="data.featuredImage">
+                        <img :src="`${data.featuredImage}`"/>
+
+                        <div class="demo-upload-list-cover">
+                            <Icon @click="deleteImage" type="ios-trash-outline"></Icon>
+                        </div>
+                    </div>
+
+                    <div slot="footer">
+                        <Button @click="addModal = false" type="error">Close</Button>
+                        <Button :disabled="isAdding" :loading="isAdding" @click="addMealPlan" type="primary">
+                            {{ isAdding ? "Adding..." : "Add Category" }}
+                        </Button>
+                    </div>
+                </Modal>
+
 
             </div>
         </div>
@@ -155,7 +244,8 @@ export default {
             addModal: false,
             isAdding: false,
             token: "",
-            mealPlans: []
+            mealPlans: [],
+            editModal: false
     }
 
     },
