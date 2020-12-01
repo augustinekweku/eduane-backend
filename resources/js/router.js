@@ -6,8 +6,10 @@ import home from './components/pages/home'
 import adminusers from './admin/pages/adminusers'
 import roles from './admin/pages/roles'
 import login from './admin/pages/login'
-import assignRole from './admin/pages/assignRole'
-import createPlan from './admin/pages/createPlan'
+import assignrole from './admin/pages/assignrole'
+import mealplans from './admin/pages/mealplans'
+import mealplandurations from './admin/pages/mealplandurations'
+import durationpackages from './admin/pages/durationpackages'
 
 
 
@@ -34,14 +36,24 @@ const routes = [
         name: 'login'
     },
     {
-        path:  '/assignRole',
-        component: assignRole,
+        path:  '/assignrole',
+        component: assignrole,
         name: 'assignRole'
     },
     {
-        path:  '/createPlan',
-        component: createPlan,
-        name: 'createPlan'
+        path:  '/mealplans',
+        component: mealplans,
+        name: 'mealplans'
+    },
+    {
+        path:  '/mealplandurations',
+        component: mealplandurations,
+        name: 'mealplandurations'
+    },
+    {
+        path:  '/durationpackages',
+        component: durationpackages,
+        name: 'durationpackages'
     },
     
     

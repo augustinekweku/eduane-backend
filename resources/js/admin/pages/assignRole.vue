@@ -64,10 +64,9 @@ export default {
 			checkAllBoxes: false,
 			resources: [
 				{resourceName: 'Home', read: true, write: false, update: false, delete: false, name: '/'},
-				{resourceName: 'Tags', read: true, write: false, update: false, delete: false, name: 'tags'},
-				{resourceName: 'Category', read: true, write: false, update: false, delete: false, name: 'category'},
-				{resourceName: 'Create Meal Plan', read: true, write: false, update: false, delete: false, name: 'createPlan'},
-				{resourceName: 'Meal Plans', read: true, write: false, update: false, delete: false, name: 'mealPlans'},
+				{resourceName: 'Meal Plans', read: true, write: false, update: false, delete: false, name: 'mealplans'},
+				{resourceName: 'Meal Plan Durations', read: true, write: false, update: false, delete: false, name: 'mealplandurations'},
+				{resourceName: 'Duration Packages', read: true, write: false, update: false, delete: false, name: 'durationpackages'},
 				{resourceName: 'Adminusers', read: true, write: false, update: false, delete: false, name: 'adminusers'},
 				{resourceName: 'Roles', read: true, write: false, update: false, delete: false, name: 'roles'},
 				{resourceName: 'AssignRole', read: true, write: false, update: false, delete: false, name: 'assignRole'},
@@ -75,20 +74,18 @@ export default {
 			
 			defaultResourcesPermission: [
 				{resourceName: 'Home', read: false, write: false, update: false, delete: false, name: '/'}, 				
-				{resourceName: 'Tags', read: false, write: false, update: false, delete: false, name: 'tags'},
-				{resourceName: 'Category', read: false, write: false, update: false, delete: false, name: 'category'},
-				{resourceName: 'Create Meal Plan', read: false, write: false, update: false, delete: false, name: 'createPlan'},
-				{resourceName: 'Meal Plans', read: false, write: false, update: false, delete: false, name: 'mealPlans'},
+				{resourceName: 'Meal Plans', read: false, write: false, update: false, delete: false, name: 'mealplans'},
+				{resourceName: 'Meal Plan Durations', read: false, write: false, update: false, delete: false, name: 'mealplandurations'},
+				{resourceName: 'Duration Packages', read: false, write: false, update: false, delete: false, name: 'durationpackages'},
 				{resourceName: 'Adminusers', read: false, write: false, update: false, delete: false, name: 'adminusers'},
 				{resourceName: 'Roles', read: false, write: false, update: false, delete: false, name: 'roles'},
 				{resourceName: 'AssignRole', read: false, write: false, update: false, delete: false, name: 'assignRole'},
 				],
 			checkAllPermission: [
 				{resourceName: 'Home', read: true, write: true, update: true, delete: true, name: '/'}, 				
-				{resourceName: 'Tags', read: true, write: true, update: true, delete: true, name: 'tags'},
-				{resourceName: 'Category', read: true, write: true, update: true, delete: true, name: 'category'},
-				{resourceName: 'Create Meal Plan', read: true, write: true, update: true, delete: true, name: 'createPlan'},
-				{resourceName: 'Meal Plans', read: true, write: true, update: true, delete: true, name: 'mealPlans'},
+				{resourceName: 'Meal Plans', read: true, write: true, update: true, delete: true, name: 'mealplans'},
+				{resourceName: 'Meal Plan Durations', read: true, write: true, update: true, delete: true, name: 'mealplandurations'},
+				{resourceName: 'Duration Packages', read: true, write: true, update: true, delete: true, name: 'durationpackages'},
 				{resourceName: 'Adminusers', read: true, write: true, update: true, delete: true, name: 'adminusers'},
 				{resourceName: 'Roles', read: true, write: true, update: true, delete: true, name: 'roles'},
 				{resourceName: 'AssignRole', read: true, write: true, update: true, delete: true, name: 'assignRole'},
@@ -141,12 +138,12 @@ export default {
 			if (res.data.length) {
 			this.data.id = res.data[0].id;
 			console.log('the id is ',res.data[0].id)
-			console.log(res.data[0].permission)
+			console.log( 'roles permission', res.data[0].permission)
 			if (res.data[0].permission) {
 				//let index = this.roles.findIndex(role => role.id == this.data.id)
-
+				console.log(typeof(res.data[0].permission))
 				this.resources = JSON.parse(res.data[0].permission)
-
+				//console.log('the parsed json', JSON.parse(res.data[0].permission))
 				//this.resources = this.defaultResourcesPermission
 			}			
 			}

@@ -34,7 +34,7 @@
                                 <td>
                                     <Button size="small" shape="circle"  @click="showViewModal(plan, i)"><Icon type="md-eye" /></Button>                                    
                                     <Button size="small" type="info" @click="showEditModal(plan, i)">Edit</Button>
-                                    <Button size="small" type="error">Delete</Button>
+                                    <Button size="small" type="error" @click="showDeletingModal(plan, i)">Delete</Button>
                                 </td>
                             </tr>
                             <!-- ITEMS -->
@@ -126,12 +126,12 @@
                     <div slot="footer">
                         <Button @click="addModal = false" type="error">Close</Button>
                         <Button :disabled="isAdding" :loading="isAdding" @click="addMealPlan" type="primary">
-                            {{ isAdding ? "Adding..." : "Add Category" }}
+                            {{ isAdding ? "Adding..." : "Add Meal Plan" }}
                         </Button>
                     </div>
                 </Modal>
 
-                <!-- meal plan editing modal -->
+                <!-- meal plan editing modal and for viewing -->
                 <Modal :closable="false" :mask-closable="false" title="Edit Meal Plan" v-model="editModal">
                     <Input v-model="editData.title" placeholder="Title"/>
                     <div class="space"></div>
@@ -224,6 +224,8 @@
                     </div>
                 </Modal>
 
+				<deleteModal></deleteModal>
+
 
             </div>
         </div>
@@ -231,7 +233,8 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex';
+import deleteModal from '../components/deleteModal.vue'
 
 export default {
     data() {
@@ -258,13 +261,22 @@ export default {
                 carbs: "",
                 protein: "",
                 fat: "",
-                featuredImage: ""
+                featuredImage: "",
+                user_id: null,
+                created_at: ""
             },
+            editingIndex: -1,
             isfeaturedImageNew: false,
             isEditingItem: false,
-            viewMode:false
+            viewMode:false,
+			showDeleteModal:false,
+			deleteItem: {},
+			isDeleting: false,
+			deletingIndex: -1  
     }
-
+    },
+	components: {
+        deleteModal
     },
     methods: {
         async addMealPlan() {
@@ -290,6 +302,7 @@ export default {
             );
             if (res.status === 201) {
                 this.success("Meal Plan added successfully");
+				this.mealPlans.unshift(res.data)
                 this.addModal = false;
                 this.data.title = "";
                 this.data.description = "";
@@ -330,6 +343,7 @@ export default {
                 this.editData
             );
             if (res.status === 200) {
+				this.mealPlans[this.editingIndex] = this.editData
                 this.success("Meal Plan edited successfully");
                 this.editModal = false;
                 this.data.featuredImage = ""
@@ -350,27 +364,41 @@ export default {
         },
         showEditModal(plan, index) {
 			//to prevent real time editing 
-			// let obj = {
-			// 	id : plan.id,
-            //     title: plan.title,
-            //     description: plan.description,
-            //     calories: plan.calories,
-            //     carbs: plan.carbs,
-            //     protein: plan.protein,
-            //     fat: plan.fat,
-            //     featuredImage: plan.featuredImage
-			// }
-			this.editData = plan
+			let obj = {
+				id : plan.id,
+                title: plan.title,
+                description: plan.description,
+                calories: plan.calories,
+                carbs: plan.carbs,
+                protein: plan.protein,
+                fat: plan.fat,
+                featuredImage: plan.featuredImage,
+                user_id: plan.user_id,
+                created_at: plan.created_at
+            }
+			this.editData = obj
 			this.editModal = true
-            this.index = index
             this.isEditingItem = true
+			this.editingIndex = index
+
         },
         showViewModal(plan, index) {
             console.log('view mode activated')
+//to prevent editing from taking effect
+			let obj = {
+				id : plan.id,
+                title: plan.title,
+                description: plan.description,
+                calories: plan.calories,
+                carbs: plan.carbs,
+                protein: plan.protein,
+                fat: plan.fat,
+                featuredImage: plan.featuredImage,
+                user_id: plan.user_id
+            }
             this.viewMode = true
             this.editModal = true
-            this.editData = plan
-            this.index = index
+            this.editData = obj
         },
         closeEditModal() {
             this.isEditingItem = false;
@@ -428,9 +456,25 @@ export default {
             }
             console.log(image);
         },
+		showDeletingModal(plan, i) {
+            console.log('the index is ', i)
+                this.deletingIndex = i
+                const deleteModalObj = {
+                showDeleteModal: true,
+                deleteUrl: 'app/delete_plan',
+                data: plan,
+                deletingIndex: i,
+                isDeleted: false,
+                msg: 'Are you sure you want to delete this Plan?',
+                successMsg: 'Plan deleted successfully'
+
+            }
+            this.$store.commit('setDeletingModalObj', deleteModalObj)
+            console.log('delete method called ')
+            },
+
+
     },
-
-
         async created() {
         this.token = window.Laravel.csrfToken;
         const res = await this.callApi("get", "app/get_plans");
@@ -440,6 +484,20 @@ export default {
             this.swr();
         }
     },
+        	computed: {
+		...mapGetters([
+			'getDeleteModalObj'
+		])
+	},
+	watch: {
+		getDeleteModalObj(obj) {
+			console.log(obj)
+			if (obj.isDeleted) {
+				this.mealPlans.splice(this.deletingIndex, 1)
+
+			}
+		}
+	}
 };
 </script>
 

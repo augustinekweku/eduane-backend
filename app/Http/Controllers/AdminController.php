@@ -244,5 +244,9 @@ public function editPlan(Request $request) {
             return $plan;
 }
 
+public function deletePlan(Request $request) {
+    return Mealplan::where('id', $request->id)->delete();
+}
+
 
 }
