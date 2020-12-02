@@ -2926,6 +2926,324 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/admin/pages/mealplandurations.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/admin/pages/mealplandurations.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _components_deleteModal_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/deleteModal.vue */ "./resources/js/admin/components/deleteModal.vue");
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      data: {
+        title: '',
+        description: ''
+      },
+      addModal: false,
+      isAdding: false,
+      mealplandurations: [],
+      editData: {
+        title: '',
+        description: ''
+      },
+      editModal: false,
+      isEditing: false,
+      editingIndex: -1,
+      showDeleteModal: false,
+      deleteItem: {},
+      isDeleting: false,
+      deletingIndex: -1
+    };
+  },
+  components: {
+    deleteModal: _components_deleteModal_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  methods: {
+    add: function add() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(_this.data.title.trim() == '')) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return", _this.error('Title is required'));
+
+              case 2:
+                if (!(_this.data.description.trim() == '')) {
+                  _context.next = 4;
+                  break;
+                }
+
+                return _context.abrupt("return", _this.error('Description is required'));
+
+              case 4:
+                console.log(_this.data);
+                _context.next = 7;
+                return _this.callApi('post', 'app/add_duration', _this.data);
+
+              case 7:
+                res = _context.sent;
+                console.log(res);
+
+                if (res.status === 201) {
+                  _this.mealplandurations.unshift(res.data);
+
+                  _this.success('Duration added successfully');
+
+                  _this.addModal = false;
+                  _this.data.title = '';
+                  _this.data.description = '';
+                } else {
+                  if (res.status === 422) {
+                    if (res.data.errors.roleName) {
+                      _this.e(res.data.errors.roleName[0]);
+                    }
+                  } else {
+                    _this.swr();
+                  }
+                }
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    edit: function edit() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!(_this2.editData.title.trim() == '')) {
+                  _context2.next = 2;
+                  break;
+                }
+
+                return _context2.abrupt("return", _this2.error('Title is required'));
+
+              case 2:
+                if (!(_this2.editData.description.trim() == '')) {
+                  _context2.next = 4;
+                  break;
+                }
+
+                return _context2.abrupt("return", _this2.error('Description is required'));
+
+              case 4:
+                _context2.next = 6;
+                return _this2.callApi('post', 'app/edit_duration', _this2.editData);
+
+              case 6:
+                res = _context2.sent;
+
+                if (res.status === 200) {
+                  _this2.mealplandurations[_this2.editingIndex].title = _this2.editData.title;
+                  _this2.mealplandurations[_this2.editingIndex].description = _this2.editData.description;
+
+                  _this2.success('Duration edited successfully');
+
+                  _this2.editModal = false;
+                } else {
+                  if (res.status === 422) {
+                    if (res.data.errors.roleName) {
+                      _this2.e(res.data.errors.roleName[0]);
+                    }
+                  } else {
+                    _this2.swr();
+                  }
+                }
+
+              case 8:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    showEditModal: function showEditModal(plan, index) {
+      //to prevent real time editing 
+      var obj = {
+        id: plan.id,
+        title: plan.title,
+        description: plan.description
+      };
+      this.editData = obj;
+      this.editModal = true;
+      this.editingIndex = index;
+    },
+    showDeletingModal: function showDeletingModal(duration, i) {
+      console.log('the index is ', i);
+      this.deletingIndex = i;
+      var deleteModalObj = {
+        showDeleteModal: true,
+        deleteUrl: 'app/delete_duration',
+        data: duration,
+        deletingIndex: i,
+        isDeleted: false,
+        msg: 'Are you sure you want to delete this Duration?',
+        successMsg: 'Duration deleted successfully'
+      };
+      this.$store.commit('setDeletingModalObj', deleteModalObj);
+      console.log('delete method called ');
+    }
+  },
+  created: function created() {
+    var _this3 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      var res;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return _this3.callApi('get', 'app/get_durations');
+
+            case 2:
+              res = _context3.sent;
+              console.log(res);
+
+              if (res.status === 200) {
+                _this3.mealplandurations = res.data;
+              }
+
+            case 5:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }))();
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['getDeleteModalObj'])),
+  watch: {
+    getDeleteModalObj: function getDeleteModalObj(obj) {
+      console.log(obj);
+
+      if (obj.isDeleted) {
+        this.mealplandurations.splice(this.deletingIndex, 1);
+      }
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/admin/pages/mealplans.vue?vue&type=script&lang=js&":
 /*!*********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/admin/pages/mealplans.vue?vue&type=script&lang=js& ***!
@@ -83424,6 +83742,316 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/admin/pages/mealplandurations.vue?vue&type=template&id=dbf1b0cc&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/admin/pages/mealplandurations.vue?vue&type=template&id=dbf1b0cc& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "content" }, [
+      _c(
+        "div",
+        { staticClass: "container-fluid" },
+        [
+          _c(
+            "div",
+            {
+              staticClass:
+                "_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20"
+            },
+            [
+              _c(
+                "p",
+                { staticClass: "_title0" },
+                [
+                  _vm._v("Meal Plan Duration "),
+                  _c(
+                    "Button",
+                    {
+                      attrs: { icon: "md-add" },
+                      on: {
+                        click: function($event) {
+                          _vm.addModal = true
+                        }
+                      }
+                    },
+                    [_vm._v("Add New ")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "_overflow _table_div" }, [
+                _c(
+                  "table",
+                  { staticClass: "_table" },
+                  [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _vm._l(_vm.mealplandurations, function(duration, i) {
+                      return _vm.mealplandurations.length
+                        ? _c("tr", { key: i }, [
+                            _c("td", [_vm._v(_vm._s(duration.id))]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "_table_name" }, [
+                              _vm._v(_vm._s(duration.title))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(duration.description))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(duration.created_at))]),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              [
+                                _c(
+                                  "Button",
+                                  {
+                                    attrs: { type: "info", size: "small" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.showEditModal(duration, i)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Edit")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "Button",
+                                  {
+                                    attrs: { type: "error", size: "small" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.showDeletingModal(
+                                          duration,
+                                          i
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Delete")]
+                                )
+                              ],
+                              1
+                            )
+                          ])
+                        : _vm._e()
+                    })
+                  ],
+                  2
+                )
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "Modal",
+            {
+              attrs: {
+                title: "Add Duration",
+                "mask-closable": false,
+                closable: false
+              },
+              model: {
+                value: _vm.addModal,
+                callback: function($$v) {
+                  _vm.addModal = $$v
+                },
+                expression: "addModal"
+              }
+            },
+            [
+              _c("Input", {
+                attrs: { placeholder: "Title eg. 1-week(5 days)" },
+                model: {
+                  value: _vm.data.title,
+                  callback: function($$v) {
+                    _vm.$set(_vm.data, "title", $$v)
+                  },
+                  expression: "data.title"
+                }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "space" }),
+              _vm._v(" "),
+              _c("Input", {
+                attrs: {
+                  type: "textarea",
+                  autosize: { minRows: 2, maxRows: 5 },
+                  placeholder: "Description"
+                },
+                model: {
+                  value: _vm.data.description,
+                  callback: function($$v) {
+                    _vm.$set(_vm.data, "description", $$v)
+                  },
+                  expression: "data.description"
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { attrs: { slot: "footer" }, slot: "footer" },
+                [
+                  _c(
+                    "Button",
+                    {
+                      attrs: { type: "error" },
+                      on: {
+                        click: function($event) {
+                          _vm.addModal = false
+                        }
+                      }
+                    },
+                    [_vm._v("Close")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "Button",
+                    {
+                      attrs: {
+                        type: "primary",
+                        disabled: _vm.isAdding,
+                        loading: _vm.isAdding
+                      },
+                      on: { click: _vm.add }
+                    },
+                    [_vm._v(_vm._s(_vm.isAdding ? "Adding..." : "Add Role"))]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "Modal",
+            {
+              attrs: {
+                title: "Edit Duration",
+                "mask-closable": false,
+                closable: false
+              },
+              model: {
+                value: _vm.editModal,
+                callback: function($$v) {
+                  _vm.editModal = $$v
+                },
+                expression: "editModal"
+              }
+            },
+            [
+              _c("Input", {
+                attrs: { placeholder: "Title eg. 1-week(5 days)" },
+                model: {
+                  value: _vm.editData.title,
+                  callback: function($$v) {
+                    _vm.$set(_vm.editData, "title", $$v)
+                  },
+                  expression: "editData.title"
+                }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "space" }),
+              _vm._v(" "),
+              _c("Input", {
+                attrs: {
+                  type: "textarea",
+                  autosize: { minRows: 2, maxRows: 5 },
+                  placeholder: "Description"
+                },
+                model: {
+                  value: _vm.editData.description,
+                  callback: function($$v) {
+                    _vm.$set(_vm.editData, "description", $$v)
+                  },
+                  expression: "editData.description"
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { attrs: { slot: "footer" }, slot: "footer" },
+                [
+                  _c(
+                    "Button",
+                    {
+                      attrs: { type: "error" },
+                      on: {
+                        click: function($event) {
+                          _vm.editModal = false
+                        }
+                      }
+                    },
+                    [_vm._v("Close")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "Button",
+                    {
+                      attrs: {
+                        type: "primary",
+                        disabled: _vm.isEditing,
+                        loading: _vm.isEditing
+                      },
+                      on: { click: _vm.edit }
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(_vm.isEditing ? "Editing..." : "Edit Duration")
+                      )
+                    ]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("deleteModal")
+        ],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("ID")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Title")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Description")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Date")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Action")])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/admin/pages/mealplans.vue?vue&type=template&id=fdf628a4&":
 /*!*************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/admin/pages/mealplans.vue?vue&type=template&id=fdf628a4& ***!
@@ -103005,17 +103633,20 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-var render, staticRenderFns
-var script = {}
+/* harmony import */ var _mealplandurations_vue_vue_type_template_id_dbf1b0cc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mealplandurations.vue?vue&type=template&id=dbf1b0cc& */ "./resources/js/admin/pages/mealplandurations.vue?vue&type=template&id=dbf1b0cc&");
+/* harmony import */ var _mealplandurations_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mealplandurations.vue?vue&type=script&lang=js& */ "./resources/js/admin/pages/mealplandurations.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
 
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__["default"])(
-  script,
-  render,
-  staticRenderFns,
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _mealplandurations_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _mealplandurations_vue_vue_type_template_id_dbf1b0cc___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _mealplandurations_vue_vue_type_template_id_dbf1b0cc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -103023,8 +103654,42 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   
 )
 
+/* hot reload */
+if (false) { var api; }
 component.options.__file = "resources/js/admin/pages/mealplandurations.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/admin/pages/mealplandurations.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/admin/pages/mealplandurations.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_mealplandurations_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./mealplandurations.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/admin/pages/mealplandurations.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_mealplandurations_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/admin/pages/mealplandurations.vue?vue&type=template&id=dbf1b0cc&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/admin/pages/mealplandurations.vue?vue&type=template&id=dbf1b0cc& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_mealplandurations_vue_vue_type_template_id_dbf1b0cc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./mealplandurations.vue?vue&type=template&id=dbf1b0cc& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/admin/pages/mealplandurations.vue?vue&type=template&id=dbf1b0cc&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_mealplandurations_vue_vue_type_template_id_dbf1b0cc___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_mealplandurations_vue_vue_type_template_id_dbf1b0cc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 

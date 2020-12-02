@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Mealplan;
+use App\Models\Mealplanduration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -247,6 +248,43 @@ public function editPlan(Request $request) {
 public function deletePlan(Request $request) {
     return Mealplan::where('id', $request->id)->delete();
 }
+
+public function addDuration(Request $request) {
+    $user = Auth::user();
+    //validate request
+    $this->validate($request, [
+        'title' => 'required',
+        'description' => 'required'
+    ]);
+    return Mealplanduration::create([
+        'title' => $request->title,
+        'description' => $request->description,
+        'user_id' => $user->id
+    ]);
+}
+
+public function getDurations() {
+    return Mealplanduration::orderBy('id', 'desc')->get();
+}
+
+
+public function editDuration(Request $request) {
+    //validate request
+    $this->validate($request, [
+        'title' => 'required',
+        'description' => 'required',
+        
+    ]);
+    return Mealplanduration::where('id', $request->id)->update([
+        'title' => $request->title,
+        'description' => $request->description,
+    ]);
+}
+
+public function deleteDuration(Request $request) {
+    return Mealplanduration::where('id', $request->id)->delete();
+}
+
 
 
 }

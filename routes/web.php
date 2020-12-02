@@ -32,6 +32,10 @@ Route::prefix('app')->middleware(adminCheck::class)->group(function(){
     Route::get('/get_plans', [AdminController::class, 'getPlans']);
     Route::post('/edit_plan', [AdminController::class, 'editPlan']);
     Route::post('/delete_plan', [AdminController::class, 'deletePlan']);
+    Route::post('/add_duration', [AdminController::class, 'addDuration']);
+    Route::get('/get_durations', [AdminController::class, 'getDurations']);
+    Route::post('/edit_duration', [AdminController::class, 'editDuration']);
+    Route::post('/delete_duration', [AdminController::class, 'deleteDuration']);
 
 
 
