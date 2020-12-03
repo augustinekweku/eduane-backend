@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMealplandurationsTable extends Migration
+class CreateSharedmealpackagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateMealplandurationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('mealplandurations', function (Blueprint $table) {
+        Schema::create('sharedmealpackages', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->integer('mealpanduration_id');
             $table->integer('mealplan_id');
-            $table->string('featuredImage');
-            $table->string('title');
-            $table->string('description');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateMealplandurationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mealplandurations');
+        Schema::dropIfExists('sharedmealpackages');
     }
 }

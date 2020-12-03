@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Mealplan;
-use App\Models\Mealplanduration;
 use Illuminate\Http\Request;
+use App\Models\Mealplanduration;
+use App\Models\Mealplanpackages;
+use App\Models\sharedmealpackages;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
@@ -283,6 +287,45 @@ public function editDuration(Request $request) {
 
 public function deleteDuration(Request $request) {
     return Mealplanduration::where('id', $request->id)->delete();
+}
+
+public function createPackage(Request $request) {
+    //validate request
+    $this->validate($request, [
+        'title' => 'required',
+        'recipe' => 'required',
+        'price' => 'required',
+        'featuredImage' => 'required',
+        'mealplans_id' => 'required',
+        'mealplanduration_id' => 'required',
+    ]);
+$mealplans = $request->mealplans_id;
+DB::beginTransaction();
+$user = Auth::user();
+
+try {
+    foreach($mealplans as $m){
+    $package = ([
+        'title' => $request->title,
+        'recipe' => $request->recipe,
+        'price' => $request->price,
+        'featuredImage' => $request->featuredImage,
+        'user_id' => $user->id ,
+        'mealplan_id' => $m,
+        'mealplanduration_id' => $request->mealplanduration_id,
+    ]);
+    
+    Mealplanpackages::insert($package);
+    DB::commit();
+
+    
+                }
+    return 'done';
+} catch  (Exception $e) {
+    DB::rollback();
+    return $e;
+}
+
 }
 
 

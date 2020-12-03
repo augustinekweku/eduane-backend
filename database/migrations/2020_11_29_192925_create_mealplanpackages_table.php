@@ -15,8 +15,8 @@ class CreateMealplanpackagesTable extends Migration
     {
         Schema::create('mealplanpackages', function (Blueprint $table) {
             $table->id();
-            $table->integer('mealPanDuration_id');
-            $table->integer('mealPlan_id');
+            $table->integer('mealpanduration_id');
+            $table->integer('mealplan_id');
             $table->integer('user_id');
             $table->string('title');
             $table->string('featuredImage');
