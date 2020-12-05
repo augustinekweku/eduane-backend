@@ -2920,11 +2920,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -84079,86 +84074,67 @@ var render = function() {
               _vm._l(_vm.mealplandurations, function(duration, i) {
                 return _c(
                   "Col",
-                  { key: i, attrs: { xs: 24, sm: 24, md: 12, lg: 12 } },
+                  { key: i, attrs: { xs: 24, sm: 24, md: 12, lg: 8 } },
                   [
                     _vm.mealplandurations.length
                       ? _c(
-                          "Card",
+                          "Collapse",
                           {
-                            staticClass: "duration_card",
-                            attrs: { bordered: false }
+                            staticClass: "package_panel",
+                            staticStyle: { margin: "10px" }
                           },
                           [
-                            _c(
-                              "p",
-                              { attrs: { slot: "title" }, slot: "title" },
-                              [_vm._v(_vm._s(duration.title))]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              { attrs: { slot: "extra" }, slot: "extra" },
-                              [
-                                _c(
-                                  "Tooltip",
-                                  {
-                                    attrs: { content: "Add a new Meal Package" }
-                                  },
-                                  [
-                                    _c("Button", {
+                            _c("Panel", { attrs: { name: "1" } }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(duration.title) +
+                                  "\n                                    "
+                              ),
+                              _c(
+                                "span",
+                                {
+                                  staticStyle: {
+                                    float: "right",
+                                    "margin-right": "5px"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "Tooltip",
+                                    {
                                       attrs: {
-                                        size: _vm.buttonSize,
-                                        type: "default",
-                                        icon: "md-add",
-                                        shape: "circle"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.showAddModal(duration, i)
-                                        }
+                                        content: "Add a new Meal Package"
                                       }
-                                    })
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("p", [_vm._v(_vm._s(duration.description))]),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                staticClass: "text-center",
-                                staticStyle: { "margin-top": "25px" }
-                              },
-                              [
-                                _c(
-                                  "Tooltip",
-                                  { attrs: { content: "Show packages below" } },
-                                  [
-                                    _c(
-                                      "p",
-                                      {},
-                                      [
-                                        _c("Button", {
-                                          attrs: {
-                                            size: _vm.buttonSize,
-                                            type: "warning",
-                                            icon: "md-arrow-round-down",
-                                            shape: "circle"
+                                    },
+                                    [
+                                      _c("Button", {
+                                        attrs: {
+                                          size: _vm.buttonSize,
+                                          type: "default",
+                                          icon: "md-add",
+                                          shape: "circle"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.showAddModal(duration, i)
                                           }
-                                        })
-                                      ],
-                                      1
-                                    )
-                                  ]
-                                )
-                              ],
-                              1
-                            )
-                          ]
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "p",
+                                { attrs: { slot: "content" }, slot: "content" },
+                                [_vm._v(_vm._s(duration.description))]
+                              )
+                            ])
+                          ],
+                          1
                         )
                       : _vm._e()
                   ],

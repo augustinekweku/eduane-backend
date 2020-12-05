@@ -5,24 +5,19 @@
                 <h1>~Duration Packages</h1>
                 <div class="space"></div>
                     <Row :gutter="16">
-                        <Col v-for="(duration, i) in mealplandurations" :key="i"  :xs="24" :sm="24" :md="12" :lg="12">
-                        <Card v-if="mealplandurations.length" class="duration_card" :bordered="false" >
-                            <p slot="title">{{duration.title}}</p>
-                                    <span slot="extra">
-                                    <Tooltip content="Add a new Meal Package"> 
-                                    <Button :size="buttonSize" type="default" icon="md-add"  @click="showAddModal(duration, i)" shape="circle" >
-                                    </Button>
-                                    </Tooltip>
+                        <Col v-for="(duration, i) in mealplandurations" :key="i"  :xs="24" :sm="24" :md="12" :lg="8">
+                            <Collapse v-if="mealplandurations.length" class="package_panel" style=" margin: 10px;">
+                                <Panel name="1">
+                                    {{duration.title}}
+                                    <span style="float:right; margin-right:5px;">
+                                                            <Tooltip content="Add a new Meal Package"> 
+                                                            <Button :size="buttonSize" type="default" icon="md-add"  @click="showAddModal(duration, i)" shape="circle" >
+                                                            </Button>
+                                                            </Tooltip>
                                     </span>
-                            
-                                    <p>{{duration.description}}</p>
-
-                                <div class="text-center" style="margin-top:25px;">
-                            <Tooltip content="Show packages below">  
-                            <p class=""><Button :size="buttonSize" type="warning" icon="md-arrow-round-down" shape="circle"></Button></p>
-                            </Tooltip>
-                                </div>
-                        </Card>
+                                    <p slot="content">{{duration.description}}</p>
+                                </Panel>
+                            </Collapse>
                         </Col>
                     </Row>
 			</div>
@@ -244,6 +239,6 @@ export default {
     padding: 0px !important;
 }
 .ivu-modal-content{
-    width: 800px;
+    width: 800px; 
 }
 </style>

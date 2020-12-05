@@ -3172,5 +3172,11 @@
         padding-bottom: 15px;
     }
 
+    .package_panel {
+        border-radius: 10px !important;
+    }
+    .ivu-collapse-item:last-child>.ivu-collapse-content {
+        border-radius: 0 0 10px 10px !important;
+    }
 
     
