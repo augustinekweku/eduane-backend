@@ -316,9 +316,7 @@ try {
     ]);
     
     Mealplanpackages::insert($package);
-    DB::commit();
-
-    
+    DB::commit();  
                 }
     return 'done';
 } catch  (Exception $e) {
@@ -328,6 +326,33 @@ try {
 
 }
 
+public function getPackages() {
+    return Mealplanpackages::orderBy('id', 'desc')->get();
+}
+public function countImages(Request $request) {
+    $countImage = DB::table('Mealplanpackages')->where('featuredImage', $request->imageName)->count();
+    return $countImage;
+}
+
+public function editPackage(Request $request) {
+    //validate request
+            $this->validate($request, [
+                'title' => 'required',
+                'recipe' => 'required',
+                'price' => 'required',
+                'featuredImage' => 'required',
+                'mealplan_id' => 'required'
+            ]);
+            $data = [
+                'title' => $request->title,
+                'recipe' => $request->recipe,
+                'price' => $request->price,
+                'featuredImage' => $request->featuredImage,
+                'mealplan_id' => $request->mealplan_id,
+            ];            
+            $plan = Mealplanpackages::where('id',$request->id)->update($data);
+            return $plan;
+}
 
 
 }

@@ -2920,6 +2920,110 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2943,7 +3047,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, {
         list: "bullet"
       }], ["image", "code-block"]],
-      token: false
+      token: false,
+      mealpackages: [],
+      isEditing: false,
+      editPackageModal: false,
+      editPackageData: {
+        title: "",
+        recipe: "",
+        price: null,
+        featuredImage: "",
+        mealplanduration_id: null,
+        mealplan_id: null
+      },
+      editingIndex: -1,
+      isfeaturedImageNew: false,
+      isEditingItem: false
     };
   },
   components: {
@@ -3042,7 +3160,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       res = "/uploads/".concat(res);
 
       if (this.isEditingItem) {
-        return this.editData.featuredImage = res;
+        return this.editPackageData.featuredImage = res;
       }
 
       this.data.featuredImage = res;
@@ -3070,33 +3188,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var isAdd, image, res;
+        var isAdd, image, countImage, res, _res;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 isAdd = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : true;
 
-                if (!isAdd) {
-                  // for editing
-                  _this2.isfeaturedImageNew = true;
-                  image = _this2.editData.featuredImage;
-                  _this2.editData.featuredImage = "";
-
-                  _this2.$refs.editDataUploads.clearFiles();
-                } else {
-                  image = _this2.data.featuredImage;
-                  _this2.data.featuredImage = "";
-
-                  _this2.$refs.uploads.clearFiles();
+                if (isAdd) {
+                  _context2.next = 20;
+                  break;
                 }
 
-                _context2.next = 4;
+                // for editing
+                _this2.isfeaturedImageNew = true;
+                image = _this2.editPackageData.featuredImage;
+                console.log(image); //check if there are multiple meal packages with the same image
+
+                _context2.next = 7;
+                return _this2.callApi("post", "app/count_images", {
+                  imageName: image
+                });
+
+              case 7:
+                countImage = _context2.sent;
+                console.log(countImage.data);
+
+                if (!(countImage.data == 1)) {
+                  _context2.next = 15;
+                  break;
+                }
+
+                console.log('its just one');
+                _context2.next = 13;
                 return _this2.callApi("post", "app/delete_image", {
                   imageName: image
                 });
 
-              case 4:
+              case 13:
                 res = _context2.sent;
 
                 if (res.status != 200) {
@@ -3105,50 +3235,182 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this2.swr();
                 }
 
+              case 15:
+                console.log(image);
+                _this2.editPackageData.featuredImage = "";
+
+                _this2.$refs.editDataUploads.clearFiles();
+
+                _context2.next = 28;
+                break;
+
+              case 20:
+                image = _this2.data.featuredImage;
+                _this2.data.featuredImage = "";
+
+                _this2.$refs.uploads.clearFiles();
+
+                _context2.next = 25;
+                return _this2.callApi("post", "app/delete_image", {
+                  imageName: image
+                });
+
+              case 25:
+                _res = _context2.sent;
+
+                if (_res.status != 200) {
+                  _this2.data.featuredImage = image;
+
+                  _this2.swr();
+                }
+
                 console.log(image);
 
-              case 7:
+              case 28:
               case "end":
                 return _context2.stop();
             }
           }
         }, _callee2);
       }))();
+    },
+    showEditPackage: function showEditPackage(mealpackage, i) {
+      //to prevent real time editing 
+      var obj = {
+        id: mealpackage.id,
+        title: mealpackage.title,
+        recipe: mealpackage.recipe,
+        price: mealpackage.price,
+        featuredImage: mealpackage.featuredImage,
+        mealplanduration_id: mealpackage.mealplanduration_id,
+        mealplan_id: mealpackage.mealplan_id
+      };
+      this.editPackageData = obj;
+      this.editPackageModal = true;
+      this.isEditingItem = true;
+      this.editingIndex = i;
+    },
+    editPackage: function editPackage() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (!(_this3.editPackageData.title.trim() == "")) {
+                  _context3.next = 2;
+                  break;
+                }
+
+                return _context3.abrupt("return", _this3.error("Title is required"));
+
+              case 2:
+                if (!(_this3.editPackageData.recipe.trim() == "")) {
+                  _context3.next = 4;
+                  break;
+                }
+
+                return _context3.abrupt("return", _this3.error("Recipe is required"));
+
+              case 4:
+                if (!(_this3.editPackageData.price == "")) {
+                  _context3.next = 6;
+                  break;
+                }
+
+                return _context3.abrupt("return", _this3.error("price cannot be empty"));
+
+              case 6:
+                if (!(_this3.editPackageData.mealplan_id == null)) {
+                  _context3.next = 8;
+                  break;
+                }
+
+                return _context3.abrupt("return", _this3.error("Meal Plan is required"));
+
+              case 8:
+                if (!(_this3.editPackageData.featuredImage.trim() == "")) {
+                  _context3.next = 10;
+                  break;
+                }
+
+                return _context3.abrupt("return", _this3.error("Image is required"));
+
+              case 10:
+                _this3.data.featuredImage = "".concat(_this3.data.featuredImage);
+                _context3.next = 13;
+                return _this3.callApi("post", "app/edit_package", _this3.editPackageData);
+
+              case 13:
+                res = _context3.sent;
+
+                if (res.status === 200) {
+                  _this3.mealpackages[_this3.editingIndex] = _this3.editPackageData;
+
+                  _this3.success("Meal Package edited successfully");
+
+                  _this3.editPackageModal = false;
+                  _this3.data.featuredImage = "";
+                  _this3.isEditingItem = false;
+                  _this3.isEditing = false;
+
+                  _this3.$refs.editDataUploads.clearFiles();
+                } else {
+                  if (res.status === 422) {
+                    if (res.data.errors.featuredImage) {
+                      _this3.e(res.data.errors.featuredImage[0]);
+                    }
+                  } else {
+                    _this3.swr();
+                  }
+                }
+
+              case 15:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
     }
   },
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-      var _yield$Promise$all, _yield$Promise$all2, d, p;
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      var _yield$Promise$all, _yield$Promise$all2, durations, plans, packages;
 
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context4.prev = _context4.next) {
             case 0:
-              _this3.token = window.Laravel.csrfToken;
-              _context3.next = 3;
-              return Promise.all([_this3.callApi('get', 'app/get_durations'), _this3.callApi('get', 'app/get_plans')]);
+              _this4.token = window.Laravel.csrfToken;
+              _context4.next = 3;
+              return Promise.all([_this4.callApi('get', 'app/get_durations'), _this4.callApi('get', 'app/get_plans'), _this4.callApi('get', 'app/get_packages')]);
 
             case 3:
-              _yield$Promise$all = _context3.sent;
-              _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 2);
-              d = _yield$Promise$all2[0];
-              p = _yield$Promise$all2[1];
+              _yield$Promise$all = _context4.sent;
+              _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 3);
+              durations = _yield$Promise$all2[0];
+              plans = _yield$Promise$all2[1];
+              packages = _yield$Promise$all2[2];
 
-              if (d.status == 200) {
-                _this3.mealplandurations = d.data;
-                _this3.mealplans = p.data;
+              if (durations.status == 200) {
+                _this4.mealplandurations = durations.data;
+                _this4.mealplans = plans.data;
+                _this4.mealpackages = packages.data;
               } else {
-                _this3.swr();
+                _this4.swr();
               }
 
-            case 8:
+            case 9:
             case "end":
-              return _context3.stop();
+              return _context4.stop();
           }
         }
-      }, _callee3);
+      }, _callee4);
     }))();
   }
 });
@@ -84064,83 +84326,263 @@ var render = function() {
           "div",
           { staticClass: "container-fluid" },
           [
-            _c("h1", [_vm._v("~Duration Packages")]),
-            _vm._v(" "),
             _c("div", { staticClass: "space" }),
             _vm._v(" "),
             _c(
               "Row",
               { attrs: { gutter: 16 } },
-              _vm._l(_vm.mealplandurations, function(duration, i) {
-                return _c(
+              [
+                _c("Col", { attrs: { xs: 24, sm: 24, md: 12, lg: 6 } }, [
+                  _c("h2", { staticStyle: { "margin-bottom": "15px" } }, [
+                    _vm._v("Duration Packages")
+                  ]),
+                  _vm._v(" "),
+                  _vm.mealplandurations.length
+                    ? _c(
+                        "div",
+                        _vm._l(_vm.mealplandurations, function(duration, i) {
+                          return _c(
+                            "Collapse",
+                            {
+                              key: i,
+                              staticClass: "package_panel",
+                              staticStyle: { margin: "10px" }
+                            },
+                            [
+                              _c("Panel", { attrs: { name: "1" } }, [
+                                _vm._v(
+                                  "\n                                    " +
+                                    _vm._s(duration.title) +
+                                    "\n                                    "
+                                ),
+                                _c(
+                                  "span",
+                                  {
+                                    staticStyle: {
+                                      float: "right",
+                                      "margin-right": "5px"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "Tooltip",
+                                      {
+                                        attrs: {
+                                          content: "Add a new Meal Package"
+                                        }
+                                      },
+                                      [
+                                        _c("Button", {
+                                          attrs: {
+                                            size: _vm.buttonSize,
+                                            type: "default",
+                                            icon: "md-add",
+                                            shape: "circle"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.showAddModal(
+                                                duration,
+                                                i
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "p",
+                                  {
+                                    attrs: { slot: "content" },
+                                    slot: "content"
+                                  },
+                                  [_vm._v(_vm._s(duration.description))]
+                                )
+                              ])
+                            ],
+                            1
+                          )
+                        }),
+                        1
+                      )
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c(
                   "Col",
-                  { key: i, attrs: { xs: 24, sm: 24, md: 12, lg: 8 } },
+                  { attrs: { xs: 24, sm: 24, md: 12, lg: 18 } },
                   [
-                    _vm.mealplandurations.length
-                      ? _c(
-                          "Collapse",
-                          {
-                            staticClass: "package_panel",
-                            staticStyle: { margin: "10px" }
-                          },
-                          [
-                            _c("Panel", { attrs: { name: "1" } }, [
-                              _vm._v(
-                                "\n                                    " +
-                                  _vm._s(duration.title) +
-                                  "\n                                    "
-                              ),
-                              _c(
-                                "span",
+                    _c("h2", { staticClass: "text-center mb-3" }, [
+                      _vm._v("Meal Packages")
+                    ]),
+                    _vm._v(" "),
+                    _c("Row", { attrs: { gutter: 16 } }, [
+                      _vm.mealpackages.length
+                        ? _c(
+                            "div",
+                            _vm._l(_vm.mealpackages, function(mealpackage, i) {
+                              return _c(
+                                "Col",
                                 {
-                                  staticStyle: {
-                                    float: "right",
-                                    "margin-right": "5px"
-                                  }
+                                  key: i,
+                                  attrs: { xs: 24, sm: 24, md: 12, lg: 8 }
                                 },
                                 [
-                                  _c(
-                                    "Tooltip",
-                                    {
-                                      attrs: {
-                                        content: "Add a new Meal Package"
-                                      }
-                                    },
-                                    [
-                                      _c("Button", {
-                                        attrs: {
-                                          size: _vm.buttonSize,
-                                          type: "default",
-                                          icon: "md-add",
-                                          shape: "circle"
-                                        },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.showAddModal(duration, i)
+                                  _c("div", {}, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "clash-card barbarian" },
+                                      [
+                                        _c("div", {
+                                          staticClass:
+                                            "clash-card__image clash-card__image--barbarian",
+                                          style: {
+                                            backgroundImage:
+                                              "url(" +
+                                              mealpackage.featuredImage +
+                                              ")"
                                           }
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "p",
-                                { attrs: { slot: "content" }, slot: "content" },
-                                [_vm._v(_vm._s(duration.description))]
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "clash-card__level clash-card__level--barbarian"
+                                          },
+                                          [_vm._v(_vm._s(mealpackage.title))]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("div", {
+                                          staticClass: "clash-card__unit-name"
+                                        }),
+                                        _vm._v(" "),
+                                        _c("div", {
+                                          staticClass:
+                                            "clash-card__unit-description",
+                                          domProps: {
+                                            innerHTML: _vm._s(
+                                              mealpackage.recipe
+                                            )
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "clash-card__unit-stats clash-card__unit-stats--barbarian clearfix"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              { staticClass: "one-third" },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  { staticClass: "stat" },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(mealpackage.price)
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              { staticClass: "one-third" },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  { staticClass: "stat" },
+                                                  [
+                                                    _c(
+                                                      "Tooltip",
+                                                      {
+                                                        attrs: {
+                                                          content: "Edit"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("Icon", {
+                                                          attrs: {
+                                                            type: "md-create"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.showEditPackage(
+                                                                mealpackage,
+                                                                i
+                                                              )
+                                                            }
+                                                          }
+                                                        })
+                                                      ],
+                                                      1
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "one-third no-border"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  { staticClass: "stat" },
+                                                  [
+                                                    _c(
+                                                      "Tooltip",
+                                                      {
+                                                        attrs: {
+                                                          content: "Delete"
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("Icon", {
+                                                          attrs: {
+                                                            type: "ios-trash"
+                                                          }
+                                                        })
+                                                      ],
+                                                      1
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ])
+                                ]
                               )
-                            ])
-                          ],
-                          1
-                        )
-                      : _vm._e()
+                            }),
+                            1
+                          )
+                        : _vm._e()
+                    ])
                   ],
                   1
                 )
-              }),
+              ],
               1
             )
           ],
@@ -84351,6 +84793,244 @@ var render = function() {
                   on: { click: _vm.add }
                 },
                 [_vm._v(_vm._s(_vm.isAdding ? "Adding..." : "Add Package"))]
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          staticStyle: { width: "400px" },
+          attrs: {
+            title: "Edit Package",
+            "mask-closable": false,
+            closable: false
+          },
+          model: {
+            value: _vm.editPackageModal,
+            callback: function($$v) {
+              _vm.editPackageModal = $$v
+            },
+            expression: "editPackageModal"
+          }
+        },
+        [
+          _c("Input", {
+            attrs: { placeholder: "Title" },
+            model: {
+              value: _vm.editPackageData.title,
+              callback: function($$v) {
+                _vm.$set(_vm.editPackageData, "title", $$v)
+              },
+              expression: "editPackageData.title"
+            }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "space" }),
+          _vm._v(" "),
+          _c(
+            "Row",
+            [
+              _c(
+                "Col",
+                { attrs: { span: "24" } },
+                [
+                  _c("vue-editor", {
+                    attrs: { editorToolbar: _vm.customToolbar },
+                    model: {
+                      value: _vm.editPackageData.recipe,
+                      callback: function($$v) {
+                        _vm.$set(_vm.editPackageData, "recipe", $$v)
+                      },
+                      expression: "editPackageData.recipe"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "space" }),
+          _vm._v(" "),
+          _c(
+            "Row",
+            { attrs: { gutter: 16 } },
+            [
+              _c(
+                "Col",
+                { attrs: { span: "12" } },
+                [
+                  _c("p", { staticClass: "title" }, [_vm._v("Meal Plan")]),
+                  _vm._v(" "),
+                  _c(
+                    "Select",
+                    {
+                      attrs: {
+                        filterable: "",
+                        placeholder: "Select Meal Plan"
+                      },
+                      model: {
+                        value: _vm.editPackageData.mealplan_id,
+                        callback: function($$v) {
+                          _vm.$set(_vm.editPackageData, "mealplan_id", $$v)
+                        },
+                        expression: "editPackageData.mealplan_id"
+                      }
+                    },
+                    _vm._l(_vm.mealplans, function(m, i) {
+                      return _c("Option", { key: i, attrs: { value: m.id } }, [
+                        _vm._v(_vm._s(m.title))
+                      ])
+                    }),
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "Col",
+                { attrs: { span: "12" } },
+                [
+                  _c("p", { staticClass: "title" }, [_vm._v("Price")]),
+                  _vm._v(" "),
+                  _c("Input", {
+                    attrs: { type: "number", placeholder: "" },
+                    model: {
+                      value: _vm.editPackageData.price,
+                      callback: function($$v) {
+                        _vm.$set(_vm.editPackageData, "price", $$v)
+                      },
+                      expression: "editPackageData.price"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "space" }),
+          _vm._v(" "),
+          _c("p", { staticClass: "title" }, [_vm._v("Featured Image")]),
+          _vm._v(" "),
+          _c(
+            "Upload",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.isfeaturedImageNew,
+                  expression: "isfeaturedImageNew"
+                }
+              ],
+              ref: "editDataUploads",
+              attrs: {
+                format: ["jpg", "jpeg", "png"],
+                headers: {
+                  "x-csrf-token": _vm.token,
+                  "X-Requested-With": "XMLHttpRequest"
+                },
+                "max-size": 2048,
+                "on-error": _vm.handleError,
+                "on-exceeded-size": _vm.handleMaxSize,
+                "on-format-error": _vm.handleFormatError,
+                "on-success": _vm.handleSuccess,
+                action: "/app/upload",
+                type: "drag"
+              }
+            },
+            [
+              _c(
+                "div",
+                { staticStyle: { padding: "20px 0" } },
+                [
+                  _c("Icon", {
+                    staticStyle: { color: "#3399ff" },
+                    attrs: { size: "52", type: "ios-cloud-upload" }
+                  }),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("Click or drag files here to upload")])
+                ],
+                1
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _vm.editPackageData.featuredImage
+            ? _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.isEditingItem,
+                      expression: "isEditingItem"
+                    }
+                  ],
+                  staticClass: "demo-upload-list"
+                },
+                [
+                  _c("img", {
+                    attrs: { src: "" + _vm.editPackageData.featuredImage }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "demo-upload-list-cover" },
+                    [
+                      _c("Icon", {
+                        attrs: { type: "ios-trash-outline" },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteImage(false)
+                          }
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: { type: "error" },
+                  on: {
+                    click: function($event) {
+                      _vm.editPackageModal = false
+                    }
+                  }
+                },
+                [_vm._v("Close")]
+              ),
+              _vm._v(" "),
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "primary",
+                    disabled: _vm.isEditing,
+                    loading: _vm.isEditing
+                  },
+                  on: { click: _vm.editPackage }
+                },
+                [_vm._v(_vm._s(_vm.isEditing ? "Editing..." : "Edit Package"))]
               )
             ],
             1

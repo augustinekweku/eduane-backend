@@ -37,6 +37,9 @@ Route::prefix('app')->middleware(adminCheck::class)->group(function(){
     Route::post('/edit_duration', [AdminController::class, 'editDuration']);
     Route::post('/delete_duration', [AdminController::class, 'deleteDuration']);
     Route::post('/create_package', [AdminController::class, 'createPackage']);
+    Route::get('/get_packages', [AdminController::class, 'getPackages']);
+    Route::post('/count_images', [AdminController::class, 'countImages']);
+    Route::post('/edit_package', [AdminController::class, 'editPackage']);
 
 
 
