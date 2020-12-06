@@ -354,5 +354,9 @@ public function editPackage(Request $request) {
             return $plan;
 }
 
+public function deletePackage(Request $request) {
+    return Mealplanpackages::where('id', $request->id)->delete();
+}
+
 
 }

@@ -47,7 +47,7 @@
                                 </div>
                         
                                 <div class="one-third no-border">
-                                    <div class="stat"><Tooltip content="Delete"> <Icon type="ios-trash" /></Tooltip></div>
+                                    <div class="stat"><Tooltip content="Delete"> <Icon @click="showDeletingModal(mealpackage, i)" type="ios-trash" /></Tooltip></div>
                                 </div>
                         
                                 </div>
@@ -184,12 +184,16 @@
 					</div>
 				</Modal>
 
+				<deleteModal></deleteModal>
+
 
 
 
     </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+import deleteModal from '../components/deleteModal.vue'
 import { VueEditor } from "vue2-editor";
 
 export default {
@@ -225,12 +229,17 @@ export default {
                 editingIndex: -1,
                 isfeaturedImageNew: false,
                 isEditingItem: false,
+                showDeleteModal:false,
+                deleteItem: {},
+                isDeleting: false,
+                deletingIndex: -1 
 
 
             }
         },
     components: {
-    VueEditor
+    VueEditor,
+    deleteModal
     },
     methods: {
         showAddModal(duration, index) {
@@ -397,11 +406,24 @@ export default {
                 }
             }
         },
+		showDeletingModal(mealpackage, i) {
+            console.log('the index is ', i)
+                this.deletingIndex = i
+                const deleteModalObj = {
+                showDeleteModal: true,
+                deleteUrl: 'app/delete_package',
+                data: mealpackage,
+                deletingIndex: i,
+                isDeleted: false,
+                msg: 'Are you sure you want to delete this Package?',
+                successMsg: 'Package deleted successfully'
+
+            }
+            this.$store.commit('setDeletingModalObj', deleteModalObj)
+            console.log('delete method called ')
+            },
 
     },
-
-
-
 
 			async created() {
         this.token = window.Laravel.csrfToken;
@@ -417,7 +439,21 @@ export default {
 			}else {
 				this.swr()
 			}
+        },
+	computed: {
+		...mapGetters([
+			'getDeleteModalObj'
+		])
+	},
+	watch: {
+		getDeleteModalObj(obj) {
+			console.log(obj)
+			if (obj.isDeleted) {
+				this.mealpackages.splice(this.deletingIndex, 1)
+
+			}
 		}
+	}
 
 
 
