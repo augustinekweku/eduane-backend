@@ -3322,3 +3322,16 @@
     ul {
         /* list-style-position: inside; */
     }
+
+    .flex-box {
+        display:flex; 
+        flex-wrap:wrap;
+    }
+    select {
+        border-radius: 10px !important;
+    }
+
+    .no-results {
+        text-align: center;
+        margin: 150px auto;
+    }

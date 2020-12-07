@@ -1,6 +1,6 @@
 <template>
     <div>
-        		<div class="content">
+        		<div class="content animate__animated animate__fadeIn">
 			<div class="container-fluid">
 	
 				<!--~~~~~~~ TABLE ONE ~~~~~~~~~-->
@@ -25,7 +25,7 @@
 								<td>{{duration.id}}</td>
 								<td class="_table_name">{{duration.title}}</td>
 								<td >{{duration.description}}</td>
-								<td>{{duration.created_at}}</td>
+								<td>{{duration.created_at | formatDate}}</td>
 								<td>
 									<Button type="info" size="small" @click="showEditModal(duration, i)" >Edit</Button>
 									<Button type="error" size="small"  @click="showDeletingModal(duration, i)">Delete</Button>

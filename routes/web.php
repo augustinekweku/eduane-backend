@@ -41,6 +41,7 @@ Route::prefix('app')->middleware(adminCheck::class)->group(function(){
     Route::post('/count_images', [AdminController::class, 'countImages']);
     Route::post('/edit_package', [AdminController::class, 'editPackage']);
     Route::post('/delete_package', [AdminController::class, 'deletePackage']);
+    Route::post('/filter_packages', [AdminController::class, 'filterPackages']);
 
 
 

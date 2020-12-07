@@ -11,6 +11,18 @@ Vue.use(ViewUI);
 import { VueEditor } from "vue2-editor";
 Vue.use(VueEditor);
 
+import animateCss from 'animate.css';
+Vue.use(animateCss);
+
+//const dayjs = require('dayjs')
+import dayjs from 'dayjs';
+Vue.filter('formatDate', function(value) {
+    if (value) {
+       return dayjs(value).format('DD/MM/YYYY');
+    }
+})
+
+
 import common from './common'
 Vue.mixin(common);
 

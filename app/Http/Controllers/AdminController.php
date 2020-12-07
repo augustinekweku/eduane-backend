@@ -357,6 +357,13 @@ public function editPackage(Request $request) {
 public function deletePackage(Request $request) {
     return Mealplanpackages::where('id', $request->id)->delete();
 }
+public function filterPackages(Request $request) {
+    $filterData = DB::table('Mealplanpackages')->where([
+        ['mealplan_id', '=', $request->mealplan_id],
+        ['mealplanduration_id', '=', $request->mealplanduration_id],
+    ])->get();
+    return $filterData;
+}
 
 
 }

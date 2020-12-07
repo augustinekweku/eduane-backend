@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="content">
+        <div class="content animate__animated animate__fadeIn">
             <div class="container-fluid">
                 <!--~~~~~~~ TABLE ONE ~~~~~~~~~-->
                 <div class="_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20">
@@ -30,7 +30,7 @@
                                 </td>
                                 <td class="_table_name">{{plan.title}}</td>
                                 <td >{{plan.description}}</td>
-                                <td class="">{{plan.created_at}}</td>
+                                <td class=""> {{plan.created_at | formatDate}}</td>
                                 <td>
                                     <Button size="small" shape="circle"  @click="showViewModal(plan, i)"><Icon type="md-eye" /></Button>                                    
                                     <Button size="small" type="info" @click="showEditModal(plan, i)">Edit</Button>
