@@ -126,7 +126,7 @@
                                             >
                                                 <div class="one-third">
                                                     <div class="stat">
-                                                        {{ mealpackage.price }}
+                                                        ₵ {{ mealpackage.price }}
                                                     </div>
                                                 </div>
 
@@ -172,6 +172,11 @@
                                     <!-- end wrapper -->
                                 </Col>
                             </div>
+                            <div v-else class="no-results">
+                                <div>
+                                    <h2>No Meal Packages avaiable</h2>
+                                </div>
+                            </div>
                         </Row>
 
                         <!-- FILTERED MEAL PACKAGES -->
@@ -214,7 +219,7 @@
                                             >
                                                 <div class="one-third">
                                                     <div class="stat">
-                                                        {{ mealpackage.price }}
+                                                        ₵ {{ mealpackage.price }}
                                                     </div>
                                                 </div>
 
@@ -269,48 +274,6 @@
                                 >Show All <Icon type="md-medical" /> </Button>
                                 </div>
                             </div>
-                        </Row>
-
-                        <Row :gutter="16" type="flex" justify="center">
-                            <Col :xs="24" :sm="24" :md="12" :lg="5">
-                                <Button
-                                    @click="showAllPackages"
-                                    type="warning"
-                                >Show All <Icon type="md-medical" /> </Button>
-                            </Col>
-                            <Col :xs="24" :sm="24" :md="12" :lg="5">
-                                <Select
-                                    placeholder="Select Meal Plan"
-                                    v-model="filterData.mealplan_id"
-                                >
-                                    <Option
-                                        v-for="(m, i) in mealplans"
-                                        :value="m.id"
-                                        :key="i"
-                                        >{{ m.title }}</Option
-                                    >
-                                </Select>
-                            </Col>
-                            <Col class="text-center" :xs="24" :sm="24" :md="12" :lg="5">
-                                <Select
-                                    placeholder="Select Meal Duration"
-                                    v-model="filterData.mealplanduration_id"
-                                >
-                                    <Option
-                                        v-for="(duration,
-                                        i) in mealplandurations"
-                                        :value="duration.id"
-                                        :key="i"
-                                        >{{ duration.title }}</Option
-                                    >
-                                </Select>
-                            </Col>
-                            <Col :xs="24" :sm="24" :md="12" :lg="5">
-                                <Button
-                                    @click="filterPackages"
-                                    type="warning"
-                                >Filter <Icon type="md-options" /> </Button>
-                            </Col>
                         </Row>
 
                     </Col>
@@ -603,6 +566,8 @@ export default {
                 this.data.mealplans_id = "";
                 this.mealplanduration_id = "";
                 this.getNewPackages();
+                this.$refs.uploads.clearFiles();
+
             } else {
                 if (res.status === 422) {
                     if (res.data.errors.featuredImage) {

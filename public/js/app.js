@@ -3347,43 +3347,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3514,6 +3477,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.mealplanduration_id = "";
 
                   _this.getNewPackages();
+
+                  _this.$refs.uploads.clearFiles();
                 } else {
                   if (res.status === 422) {
                     if (res.data.errors.featuredImage) {
@@ -85151,7 +85116,7 @@ var render = function() {
                                                       { staticClass: "stat" },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                    " +
+                                                          "\n                                                    ₵ " +
                                                             _vm._s(
                                                               mealpackage.price
                                                             ) +
@@ -85256,7 +85221,13 @@ var render = function() {
                                 }),
                                 1
                               )
-                            : _vm._e()
+                            : _c("div", { staticClass: "no-results" }, [
+                                _c("div", [
+                                  _c("h2", [
+                                    _vm._v("No Meal Packages avaiable")
+                                  ])
+                                ])
+                              ])
                         ]
                       ),
                       _vm._v(" "),
@@ -85353,7 +85324,7 @@ var render = function() {
                                                       { staticClass: "stat" },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                    " +
+                                                          "\n                                                    ₵ " +
                                                             _vm._s(
                                                               mealpackage.price
                                                             ) +
@@ -85483,129 +85454,6 @@ var render = function() {
                                 )
                               ])
                         ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "Row",
-                        {
-                          attrs: { gutter: 16, type: "flex", justify: "center" }
-                        },
-                        [
-                          _c(
-                            "Col",
-                            { attrs: { xs: 24, sm: 24, md: 12, lg: 5 } },
-                            [
-                              _c(
-                                "Button",
-                                {
-                                  attrs: { type: "warning" },
-                                  on: { click: _vm.showAllPackages }
-                                },
-                                [
-                                  _vm._v("Show All "),
-                                  _c("Icon", { attrs: { type: "md-medical" } })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "Col",
-                            { attrs: { xs: 24, sm: 24, md: 12, lg: 5 } },
-                            [
-                              _c(
-                                "Select",
-                                {
-                                  attrs: { placeholder: "Select Meal Plan" },
-                                  model: {
-                                    value: _vm.filterData.mealplan_id,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.filterData,
-                                        "mealplan_id",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "filterData.mealplan_id"
-                                  }
-                                },
-                                _vm._l(_vm.mealplans, function(m, i) {
-                                  return _c(
-                                    "Option",
-                                    { key: i, attrs: { value: m.id } },
-                                    [_vm._v(_vm._s(m.title))]
-                                  )
-                                }),
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "Col",
-                            {
-                              staticClass: "text-center",
-                              attrs: { xs: 24, sm: 24, md: 12, lg: 5 }
-                            },
-                            [
-                              _c(
-                                "Select",
-                                {
-                                  attrs: {
-                                    placeholder: "Select Meal Duration"
-                                  },
-                                  model: {
-                                    value: _vm.filterData.mealplanduration_id,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.filterData,
-                                        "mealplanduration_id",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "filterData.mealplanduration_id"
-                                  }
-                                },
-                                _vm._l(_vm.mealplandurations, function(
-                                  duration,
-                                  i
-                                ) {
-                                  return _c(
-                                    "Option",
-                                    { key: i, attrs: { value: duration.id } },
-                                    [_vm._v(_vm._s(duration.title))]
-                                  )
-                                }),
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "Col",
-                            { attrs: { xs: 24, sm: 24, md: 12, lg: 5 } },
-                            [
-                              _c(
-                                "Button",
-                                {
-                                  attrs: { type: "warning" },
-                                  on: { click: _vm.filterPackages }
-                                },
-                                [
-                                  _vm._v("Filter "),
-                                  _c("Icon", { attrs: { type: "md-options" } })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
                       )
                     ],
                     1

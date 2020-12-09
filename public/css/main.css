@@ -3270,25 +3270,17 @@
     .clash-card__unit-stats .one-third {
     width: 33%;
     float: left;
-    padding: 5px 7px;
+    padding: 7px 7px;
     }
-    .clash-card__unit-stats sup {
-    position: absolute;
-    bottom: 4px;
-    font-size: 45%;
-    margin-left: 2px;
-    }
+
     .clash-card__unit-stats .stat {
     position: relative;
-    font-size: 24px;
+    font-size: 18px;
     text-align: center;
+    font-weight: 400;
     /* margin-bottom: 2px; */
     }
-    .clash-card__unit-stats .stat-value {
-    text-transform: uppercase;
-    font-weight: 400;
-    font-size: 12px;
-    }
+
     .clash-card__unit-stats .no-border {
     border-right: none;
     }
@@ -3326,5 +3318,5 @@
 
     .no-results {
         text-align: center;
-        margin: 150px auto;
+        margin: 120px auto;
     }
