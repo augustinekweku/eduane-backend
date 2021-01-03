@@ -3306,7 +3306,7 @@
 
     ul {
         /* list-style-position: inside; */
-        /* text-align: justify; */
+        text-align: justify; 
     }
 
     .flex-box {
