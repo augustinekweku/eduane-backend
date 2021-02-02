@@ -12,6 +12,7 @@ use App\Models\Mealplanpackages;
 use App\Models\sharedmealpackages;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 
 class AdminController extends Controller
 {
@@ -148,7 +149,7 @@ class AdminController extends Controller
             
             return response()->json([
                 'msg' => 'You are logged in',
-                'user' => $user
+                //'user' => $user
             ]);
         }else {
             return response()->json([
@@ -178,7 +179,8 @@ public function upload(Request $request) {
         'file' => 'required|mimes:jpeg,jpg,png',
     ]);
     $picName = time(). '.' . $request->file->extension();
-    $request->file->move(public_path('uploads'), $picName);
+    Image::make($request->file->move(public_path('uploads'), $picName));
+
     return $picName;
 }
 

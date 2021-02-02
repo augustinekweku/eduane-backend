@@ -406,6 +406,7 @@ export default {
             this.viewMode = false
         },
         handleSuccess(res, file) {
+            console.log(res)
             res = `/uploads/${res}`
             if (this.isEditingItem) {
                 return this.editData.featuredImage = res
