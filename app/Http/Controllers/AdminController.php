@@ -179,8 +179,7 @@ public function upload(Request $request) {
         'file' => 'required|mimes:jpeg,jpg,png',
     ]);
     $picName = time(). '.' . $request->file->extension();
-    Image::make($request->file->move(public_path('uploads'), $picName));
-
+    Image::make($request->file->move(public_path('uploads'), $picName))->fit(1200, 1200);
     return $picName;
 }
 
